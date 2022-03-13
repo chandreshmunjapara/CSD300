@@ -8,7 +8,6 @@ y_=deepcopy(img)
 x_=deepcopy(sec_img)
 pix=y_.tolist()
 pix_secret=x_.tolist()
-
 # converting decimal to binary
 for i in range(len(pix_secret)):
     for j in range(len(pix_secret)):
@@ -16,5 +15,5 @@ for i in range(len(pix_secret)):
 temp3=[]
 temp3+=h.conversion_8bit(pix_secret)
 print(d.return_psnr(pix,temp3))
-
+# print(len(temp3))
 
