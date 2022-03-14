@@ -338,7 +338,10 @@ def return_psnr(pix, secret):
         func = switcher[dir_input](l, x_offset, y_offset, val, prev)
         return func
 
+    # taking the input for direction
     dir_input = int(input())
+
+    # calculating psnr
     pix = raster_order(dir_input)
     array = np.array(pix, dtype=np.uint8)
     new_image = Image.fromarray(array)
