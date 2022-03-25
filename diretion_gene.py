@@ -2,13 +2,31 @@ import math
 import numpy as np
 from PIL import Image
 
-def return_psnr(pix, secret):
-    x_offset = 50
-    y_offset = 50
+def getValue(arr) :
+    res = int("".join(str(x) for x in arr), 2)
+    return res
+
+def return_psnr(pix, secret, population):
+    x_offset = getValue(population[14:22])
+    y_offset = getValue(population[6:14])
+    direction = getValue(population[2:6])
+    sb_pole = getValue(population[1:2])
+    sb_dir = getValue(population[0:1])
     val = 0
     prev = 0
     mse = 0
     l = 0
+
+    if(sb_pole):
+        for i in range(len(secret)):
+            if secret[i] == '0':
+                secret[i] = '1'
+            else:
+                secret[i] = '0'
+
+
+    if(sb_dir):
+        secret.reverse()
 
     def zero(l, x_offset, y_offset, val, prev):
         nonlocal mse
@@ -339,14 +357,21 @@ def return_psnr(pix, secret):
         return func
 
     # taking the input for direction
-    dir_input = int(input())
-
+    dir_input = direction
     # calculating psnr
     pix = raster_order(dir_input)
-    array = np.array(pix, dtype=np.uint8)
-    new_image = Image.fromarray(array)
-    new_image.save("stego.png")
+    # array = np.array(pix, dtype=np.uint8)
+    # new_image = Image.fromarray(array)
+    # new_image.save("stego.png")
+    # print(mse)
     mse = mse / (256 * 256)
-    psnr = 10 * math.log10((255 * 255) / mse)
-    print("Psnr of stego:", psnr)
+    if(mse):
+        # nonlocal psnr
+        psnr = 10 * math.log10((255 * 255) / mse)
+        return  psnr, pix
+    # else:
+        # print(dir_input, x_offset, y_offset)
+
+    # print("Psnr of stego:", psnr)
+    return  0, pix
 
