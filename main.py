@@ -47,14 +47,7 @@ def fitness_score():
     fit_score = []
     all_stego = []
     for i in range(300):
-        # chromosome_value = 0
-        # for j in range(21, 0, -1):
-        #     chromosome_value += populations[i][j]*(2 * (21 - j))
-        #         chromosome_value = -1*chromosome_value if populations[i][0]==1 else chromosome_value
-        # print(chromosome_value)
-        # getGene(populations[i])
-        # fit_value.append(d.return_psnr(host,secret, populations[i]))
-        f, stego = d.return_psnr(host,secret, populations[i])
+        f, stego = d.return_psnr(host, secret, populations[i])
         fit_value.append(f)
         all_stego.append(list(stego))
         best_stego2[f] = stego
