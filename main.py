@@ -31,7 +31,8 @@ secret+=h.conversion_8bit(pix_secret)
 
 #initialize population
 best=-100000
-best_stego = {}
+best_stego1 = []
+best_stego2 = {}
 populations =([[random.randint(0,1) for x in range(22)] for i in range(300)])
 # print(type(populations))
 parents=[]
@@ -41,9 +42,10 @@ new_populations = []
 
 # fitness score calculation ............
 def fitness_score():
-    global populations, best
+    global populations, best, best_stego1, best_stego2
     fit_value = []
     fit_score = []
+    all_stego = []
     for i in range(300):
         # chromosome_value = 0
         # for j in range(21, 0, -1):
@@ -54,12 +56,17 @@ def fitness_score():
         # fit_value.append(d.return_psnr(host,secret, populations[i]))
         f, stego = d.return_psnr(host,secret, populations[i])
         fit_value.append(f)
-        best_stego[f] = stego
+        all_stego.append(list(stego))
+        best_stego2[f] = stego
     # print(fit_value)
-    fit_value, populations = zip(*sorted(zip(fit_value, populations) , reverse = True))
+    fit_value, populations, all_stego = zip(*sorted(zip(fit_value, populations, all_stego) , reverse = True))
     best= fit_value[0]
+    best_stego1 = all_stego[0]
+
 
 # fitness_score()
+# print(len(all_stego), type(best_stego1))
+
 
 def selectparent():
     global parents
@@ -125,8 +132,13 @@ print(best)
 print("sequence........")
 print(populations[0])
 print("stego.........")
-print(len(best_stego[best]))
+# print(best_stego1)
+# print(".....................")
+# print(best_stego2[best])
+# if best_stego2[best] != best_stego1:
+#     print(type(best_stego2[best]), type(best_stego1))
 
 # Extraction
+
 
 
