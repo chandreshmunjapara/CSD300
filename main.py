@@ -2,6 +2,9 @@ import cv2
 from copy import copy,deepcopy
 import helper as h
 import diretion_gene as d
+import extraction as e
+import  numpy as np
+from PIL import Image
 import random
 
 
@@ -12,11 +15,11 @@ img = cv2.imread("hostim.jpg", 0)
 sec_img=cv2.imread("secret2.png",0)
 y_=deepcopy(img)
 x_=deepcopy(sec_img)
-
+# print(x_)
 # converting to pixels
 host=y_.tolist()
 pix_secret=x_.tolist()
-
+# print(pix_secret)
 # converting decimal to binary
 for i in range(len(pix_secret)):
     for j in range(len(pix_secret)):
@@ -25,9 +28,11 @@ for i in range(len(pix_secret)):
 # converting to 8-bit pixels 
 secret=[]
 secret+=h.conversion_8bit(pix_secret)
+# print(len(secret))
 
 # getting the psnr of stego image
-# print(d.return_psnr(pix,temp3))
+# psnr, stego = d.return_psnr(host,secret)
+
 
 #initialize population
 best=-100000
@@ -122,7 +127,7 @@ def mutation() :
 #
 # # [1,0,1,1,1,1,1,1,1,0,0,1,0,0,1,1,1,0,0,0,1,0]
 #
-for i in range(10) :
+for i in range(1) :
     fitness_score()
     selectparent()
     crossover()
@@ -131,14 +136,27 @@ print("best score :")
 print(best)
 print("sequence........")
 print(populations[0])
-print("stego.........")
+# print("stego.........")
 # print(best_stego1)
-# print(".....................")
-# print(best_stego2[best])
+print(".....................")
+# print(np.array(best_stego2[best]))
+
 # if best_stego2[best] != best_stego1:
 #     print(type(best_stego2[best]), type(best_stego1))
 
-# Extraction
+# # Extraction
+new_secret = e.return_secret(best_stego2[best], populations[0])
+# if h.getValue(new_secret[0:8]) == h.getValue(new_secret[8*128: 8*128+8]):
+#     print("YES")
+# print(h.getValue(new_secret[0:8]), h.getValue(new_secret[8*128: 8*128+8]))
+real_secret = np.array(h.convert_decimal(new_secret))
+print(x_)
+print(real_secret)
+print(np.array_equal(x_,real_secret))
+array = np.array(real_secret, dtype=np.uint8)
+new_image = Image.fromarray(array)
+new_image.save("extracted_secret.png")
+
 
 
 

@@ -1,7 +1,6 @@
 import math
 import numpy as np
-from PIL import Image
-
+import copy
 
 def zero(x_offset, y_offset, host, secret):
     mse = 0
@@ -386,6 +385,8 @@ def getValue(arr) :
     return res
 
 def return_psnr(pix, secret, population):
+    temp_pix = copy.deepcopy(pix)
+    temp_secret = copy.deepcopy(secret)
     x_offset = getValue(population[14:22])
     y_offset = getValue(population[6:14])
     direction = getValue(population[2:6])
@@ -393,30 +394,22 @@ def return_psnr(pix, secret, population):
     sb_dir = getValue(population[0:1])
 
     if(sb_pole):
-        for i in range(len(secret)):
-            if secret[i] == '0':
-                secret[i] = '1'
+        for i in range(len(temp_secret)):
+            if temp_secret[i] == '0':
+                temp_secret[i] = '1'
             else:
-                secret[i] = '0'
+                temp_secret[i] = '0'
 
 
     if(sb_dir):
-        secret.reverse()
+        temp_secret.reverse()
 
     # calculating psnr
-    stego, mse = raster_order(direction, x_offset, y_offset, pix, secret)
+    stego, mse = raster_order(3, x_offset, y_offset, temp_pix, temp_secret)
     # array = np.array(pix, dtype=np.uint8)
     # new_image = Image.fromarray(array)
     # new_image.save("stego.png")
     # print(mse)
     mse = mse / (256 * 256)
-    # if(mse):
-        # nonlocal psnr
     psnr = 10 * math.log10((255 * 255) / mse)
     return  psnr, stego
-    # else:
-        # print(dir_input, x_offset, y_offset)
-
-    # print("Psnr of stego:", psnr)
-    # return  0, stego
-
