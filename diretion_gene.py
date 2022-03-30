@@ -182,18 +182,18 @@ def eight(x_offset, y_offset, host, secret):
         prev = host[x_offset][y_offset]
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
-        if x_offset%2==0:
-            y_offset+= 1
+        if x_offset % 2 == 0:
+            y_offset += 1
             if y_offset == 256:
-               x_offset += 1
-               y_offset = 255
+                x_offset += 1
+                y_offset = 255
         else:
             y_offset -= 1
-            if y_offset==-1:
-                x_offset+=1
-                if x_offset==256:
-                    x_offset=0
-            y_offset=0
+            if y_offset == -1:
+                x_offset += 1
+                if x_offset == 256:
+                    x_offset = 0
+                y_offset = 0
         l += 2
         total -= 1
     return host, mse
@@ -237,12 +237,18 @@ def ten(x_offset, y_offset, host, secret):
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
         # print(mse)
-        x_offset += 1
-        if x_offset == 256:
+        if x_offset % 2 == 0:
             y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
+            if y_offset == -1:
+                y_offset = 0
+                x_offset -= 1
+                if x_offset == -1:
+                    x_offset = 255
+        else:
+            y_offset += 1
+            if y_offset == 256:
                 y_offset = 255
-            x_offset = 0
+                x_offset -= 1
         l += 2
         total -= 1
     return host, mse
@@ -259,12 +265,18 @@ def eleven(x_offset, y_offset, host, secret):
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
         # print(mse)
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
-                y_offset = 255
-            x_offset = 0
+        if y_offset%2 == 0:
+            x_offset-=1
+            if x_offset == -1:
+                x_offset = 0
+                y_offset += 1
+        else:
+            x_offset+=1
+            if x_offset == 256:
+                x_offset = 255
+                y_offset += 1
+                if y_offset == 256:
+                    y_offset = 0
         l += 2
         total -= 1
     return host, mse
@@ -281,12 +293,18 @@ def twelve(x_offset, y_offset, host, secret):
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
         # print(mse)
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
-                y_offset = 255
-            x_offset = 0
+        if y_offset % 2 == 0:
+            x_offset -= 1
+            if x_offset == -1:
+                x_offset = 0
+                y_offset -= 1
+                if y_offset == -1:
+                    y_offset = 255
+        else:
+            x_offset += 1
+            if x_offset == 256:
+                x_offset = 255
+                y_offset -= 1
         l += 2
         total -= 1
     return host, mse
@@ -303,12 +321,19 @@ def thirteen(x_offset, y_offset, host, secret):
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
         # print(mse)
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
+        if x_offset % 2 == 0:
+            y_offset += 1
+            if y_offset == 256:
                 y_offset = 255
-            x_offset = 0
+                x_offset -= 1
+                if x_offset == -1:
+                    x_offset = 255
+        else:
+            y_offset -= 1
+            if y_offset == -1:
+                y_offset = 0
+                x_offset -= 1
+
         l += 2
         total -= 1
     return host, mse
@@ -324,13 +349,18 @@ def fourteen(x_offset, y_offset, host, secret):
         prev = host[x_offset][y_offset]
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
-        # print(mse)
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
-                y_offset = 255
-            x_offset = 0
+        if y_offset % 2 == 0:
+            x_offset += 1
+            if x_offset == 256:
+                x_offset = 255
+                y_offset += 1
+        else:
+            x_offset -= 1
+            if x_offset == -1:
+                x_offset =  0
+                y_offset += 1
+                if y_offset == 256:
+                    y_offset = 0
         l += 2
         total -= 1
     return host, mse
@@ -346,13 +376,18 @@ def fifteen(x_offset, y_offset, host, secret):
         prev = host[x_offset][y_offset]
         host[x_offset][y_offset] = host[x_offset][y_offset] - (host[x_offset][y_offset] % 4) + int(val)
         mse += ((prev - host[x_offset][y_offset]) ** 2)
-        # print(mse)
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
+        if x_offset%2 == 0:
+            y_offset-=1
+            if y_offset == -1:
+                y_offset = 0
+                x_offset+=1
+        else:
+            y_offset+=1
+            if y_offset == 256:
                 y_offset = 255
-            x_offset = 0
+                x_offset+=1
+                if x_offset == 256:
+                    x_offset = 0
         l += 2
         total -= 1
     return host, mse
@@ -405,7 +440,7 @@ def return_psnr(pix, secret, population):
         temp_secret.reverse()
 
     # calculating psnr
-    stego, mse = raster_order(3, x_offset, y_offset, temp_pix, temp_secret)
+    stego, mse = raster_order(direction, x_offset, y_offset, temp_pix, temp_secret)
     # array = np.array(pix, dtype=np.uint8)
     # new_image = Image.fromarray(array)
     # new_image.save("stego.png")

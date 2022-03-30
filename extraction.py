@@ -192,7 +192,7 @@ def eight(x_offset, y_offset, stego):
                 x_offset+=1
                 if x_offset==256:
                     x_offset=0
-            y_offset=0
+                y_offset=0
         l += 2
         total -= 1
     return secret
@@ -213,8 +213,8 @@ def nine(x_offset, y_offset, stego):
             if x_offset == 256:
                 y_offset -= 1
                 if y_offset == -1:
-                   y_offset = 255
-                x_offset=255
+                    y_offset = 255
+                x_offset = 255
         else:
             x_offset -= 1
             if x_offset == -1:
@@ -235,12 +235,18 @@ def ten(x_offset, y_offset, stego):
         secret[l + 1] = val % 2
         val = val // 2
         secret[l] = val
-        x_offset += 1
-        if x_offset == 256:
+        if x_offset % 2 == 0:
             y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
+            if y_offset == -1:
+                y_offset = 0
+                x_offset -= 1
+                if x_offset == -1:
+                    x_offset = 255
+        else:
+            y_offset += 1
+            if y_offset == 256:
                 y_offset = 255
-            x_offset = 0
+                x_offset -= 1
         l += 2
         total -= 1
     return secret
@@ -256,12 +262,18 @@ def eleven(x_offset, y_offset, stego):
         secret[l + 1] = val % 2
         val = val // 2
         secret[l] = val
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
-                y_offset = 255
-            x_offset = 0
+        if y_offset % 2 == 0:
+            x_offset -= 1
+            if x_offset == -1:
+                x_offset = 0
+                y_offset += 1
+        else:
+            x_offset += 1
+            if x_offset == 256:
+                x_offset = 255
+                y_offset += 1
+                if y_offset == 256:
+                    y_offset = 0
         l += 2
         total -= 1
     return secret
@@ -277,12 +289,18 @@ def twelve(x_offset, y_offset, stego):
         secret[l + 1] = val % 2
         val = val // 2
         secret[l] = val
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
-                y_offset = 255
-            x_offset = 0
+        if y_offset % 2 == 0:
+            x_offset -= 1
+            if x_offset == -1:
+                x_offset = 0
+                y_offset -= 1
+                if y_offset == -1:
+                    y_offset = 255
+        else:
+            x_offset += 1
+            if x_offset == 256:
+                x_offset = 255
+                y_offset -= 1
         l += 2
         total -= 1
     return secret
@@ -298,12 +316,18 @@ def thirteen(x_offset, y_offset, stego):
         secret[l + 1] = val % 2
         val = val // 2
         secret[l] = val
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
+        if x_offset % 2 == 0:
+            y_offset += 1
+            if y_offset == 256:
                 y_offset = 255
-            x_offset = 0
+                x_offset -= 1
+                if x_offset == -1:
+                    x_offset = 255
+        else:
+            y_offset -= 1
+            if y_offset == -1:
+                y_offset = 0
+                x_offset -= 1
         l += 2
         total -= 1
     return secret
@@ -319,12 +343,18 @@ def fourteen(x_offset, y_offset, stego):
         secret[l + 1] = val % 2
         val = val // 2
         secret[l] = val
-        x_offset += 1
-        if x_offset == 256:
-            y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
-                y_offset = 255
-            x_offset = 0
+        if y_offset % 2 == 0:
+            x_offset += 1
+            if x_offset == 256:
+                x_offset = 255
+                y_offset += 1
+        else:
+            x_offset -= 1
+            if x_offset == -1:
+                x_offset = 0
+                y_offset += 1
+                if y_offset == 256:
+                    y_offset = 0
         l += 2
         total -= 1
     return secret
@@ -340,12 +370,18 @@ def fifteen(x_offset, y_offset, stego):
         secret[l + 1] = val % 2
         val = val // 2
         secret[l] = val
-        x_offset += 1
-        if x_offset == 256:
+        if x_offset % 2 == 0:
             y_offset -= 1
-            if y_offset == -1 and x_offset == 256:
+            if y_offset == -1:
+                y_offset = 0
+                x_offset += 1
+        else:
+            y_offset += 1
+            if y_offset == 256:
                 y_offset = 255
-            x_offset = 0
+                x_offset += 1
+                if x_offset == 256:
+                    x_offset = 0
         l += 2
         total -= 1
     return secret
@@ -385,7 +421,7 @@ def return_secret(stego, population):
     sb_pole = getValue(population[1:2])
     sb_dir = getValue(population[0:1])
 
-    secret = raster_order(3, x_offset, y_offset, temp_stego)
+    secret = raster_order(direction, x_offset, y_offset, temp_stego)
 
     if (sb_pole):
         for i in range(len(secret)):
